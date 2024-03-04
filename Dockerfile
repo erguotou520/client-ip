@@ -1,19 +1,26 @@
-FROM golang:1.22-alpine as builder
+# syntax=docker/dockerfile:1
+
+# Build the application from source
+FROM golang:1.19 AS build-stage
 
 WORKDIR /app
 
 COPY go.mod ./
-
 RUN go mod download
 
-COPY . .
+COPY *.go ./
 
-RUN go build -o main -ldflags="-s -w"
+RUN CGO_ENABLED=0 GOOS=linux go build -o /client-ip
 
-FROM alpine:latest as final
+# Deploy the application binary into a lean image
+FROM gcr.io/distroless/base-debian11 AS build-release-stage
 
-COPY --from=builder /app/main /app/main
+WORKDIR /
+
+COPY --from=build-stage /client-ip /client-ip
 
 EXPOSE 8080
 
-ENTRYPOINT [ "/app/main" ]
+USER nonroot:nonroot
+
+ENTRYPOINT ["/client-ip"]

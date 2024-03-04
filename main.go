@@ -12,5 +12,6 @@ func main() {
 		fmt.Fprintf(w, "client ip: %s\n", ip)
 	})
 
+	fmt.Printf("Server started on port 8080\n")
 	http.ListenAndServe(":8080", nil)
 }
