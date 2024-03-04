@@ -8,7 +8,7 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -o main -ldflags="-s -w"
+RUN go build -o main
 
 FROM scratch as final
 WORKDIR /app
