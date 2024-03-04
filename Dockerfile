@@ -8,9 +8,9 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -o main
+RUN go build -o main -ldflags="-s -w"
 
-FROM scratch as final
+FROM alpine:latest as final
 WORKDIR /app
 COPY --from=builder /app/main /app/main
 
