@@ -10,7 +10,7 @@ COPY . .
 
 RUN go build -o main -ldflags="-s -w"
 
-FROM scratch as final
+FROM apine:latest as final
 
 COPY --from=builder /app/main /app/main
 
