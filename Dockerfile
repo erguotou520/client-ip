@@ -10,7 +10,7 @@ COPY . .
 
 RUN go build -o main -ldflags="-s -w"
 
-FROM apine:latest as final
+FROM alpine:latest as final
 
 COPY --from=builder /app/main /app/main
 
