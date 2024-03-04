@@ -10,10 +10,10 @@ COPY . .
 
 RUN go build -o main -ldflags="-s -w"
 
-FROM alpine:latest as final
-WORKDIR /app
+FROM scratch as final
+
 COPY --from=builder /app/main /app/main
 
 EXPOSE 8080
 
-CMD ["/app/main"]
+ENTRYPOINT [ "/app/main" ]
